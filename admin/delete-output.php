@@ -1,7 +1,6 @@
 <?php require '../header.php'; ?>
 <?php
-$pdo=new PDO('mysql:host=localhost;dbname=shop;charset=utf8', 
-	'staff', 'password');
+require 'connect.php';
 $sql=$pdo->prepare('delete from product where id=?');
 if ($sql->execute([$_REQUEST['id']])) {
 	echo '削除に成功しました。';
