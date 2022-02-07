@@ -1,38 +1,81 @@
-<?php session_start(); ?>
-<?php require '../header.php'; ?>
-<?php require 'menu.php'; ?>
-<?php
-$pdo=new PDO('mysql:host=localhost;dbname=hs_shop;charset=utf8', 
-'satou_hidetoshi', 'Asdf3333-');
-if (isset($_SESSION['customer'])) {
-	$id=$_SESSION['customer']['id'];
-	$sql=$pdo->prepare('select * from customer where id!=? and login=?');
-	$sql->execute([$id, $_REQUEST['login']]);
-} else {
-	$sql=$pdo->prepare('select * from customer where login=?');
-	$sql->execute([$_REQUEST['login']]);
-}
-if (empty($sql->fetchAll())) {
-	if (isset($_SESSION['customer'])) {
-		$sql=$pdo->prepare('update customer set name=?, address=?, '.
-			'login=?, password=? where id=?');
-		$sql->execute([
-			$_REQUEST['name'], $_REQUEST['address'], 
-			$_REQUEST['login'], $_REQUEST['password'], $id]);
+<?php session_start();
+	//既存ユーザーの情報変更
+ require "../header.php";
+ require "menu.php";
+ require '../chapter6/connect.php';
+
+ 
+ // var_dump($sql->fetch()['count(*)']);
+ // exit;
+ 
+ 
+ if (isset($_SESSION['customer'])) {
+	 //  ※ログインしてるか
+	 $id = $_SESSION['customer']['id'];
+
+	 if ( $_REQUEST['login'] != $_SESSION['customer']['login']) {
+		 // ログイン名を変更しようとしてる
+				$sql = $pdo->prepare(
+						'SELECT count(*) from customer 
+						WHERE login = ?
+						AND id != ? ' //自分のidではない
+					);
+					// 自分のidと一致しない,かつログイン名が一致する行
+				$sql->execute([ $_REQUEST['login'],  $_SESSION['customer']['id'] ]);
+
+				if( $sql->fetch()['count(*)'] > 0 ){
+					echo "ログイン名が使われてるので戻って入れ直してください";
+					exit; // 中断
+				}
+
+	} elseif( $_REQUEST['email'] != $_SESSION['customer']['email'] ) {
+		// メールを変更しようとしている
+			$sql = $pdo->prepare(
+				'SELECT count(*) from customer 
+				WHERE email = ?
+				AND id != ? ' //自分のidではない
+			);
+			// 
+			$sql->execute([ $_REQUEST['email'],  $_SESSION['customer']['id'] ]);
+
+			if( $sql->fetch()['count(*)'] > 0 ){
+				echo "そのメールアドレスは使われてます";
+				exit; // 中断
+			}
+	} 
+
+		
+		$sql=$pdo->prepare(
+			'	UPDATE customer set 
+						name=?, 
+						address=? ,
+						login=?, 
+						email=?,
+						password=? 
+				WHERE id=?');
+	// 既存顧客情報の上書き
+		$sql->execute([   // ?の数だけ書く
+					$_REQUEST['name'],
+					$_REQUEST['address'],
+					$_REQUEST['login'],  //変更があってもなくても上書きする
+					$_REQUEST['email'],  // 〃
+					$_REQUEST['password'],
+					$id]
+				);
+		//ログインセッションに値を代入		
 		$_SESSION['customer']=[
-			'id'=>$id, 'name'=>$_REQUEST['name'], 
-			'address'=>$_REQUEST['address'], 'login'=>$_REQUEST['login'], 
-			'password'=>$_REQUEST['password']];
+			'id'=>$id, //配列全体が上書きされるので入れる
+			'name'=>$_REQUEST['name'],
+			'address'=>$_REQUEST['address'],
+			'login'=>$_REQUEST['login'],
+			'email'=>$_REQUEST['email'],
+			'password'=>$_REQUEST['password']
+		];
 		echo 'お客様情報を更新しました。';
-	} else {
-		$sql=$pdo->prepare('insert into customer values(null,?,?,?,?)');
-		$sql->execute([
-			$_REQUEST['name'], $_REQUEST['address'], 
-			$_REQUEST['login'], $_REQUEST['password']]);
-		echo 'お客様情報を登録しました。';
-	}
-} else {
-	echo 'ログイン名がすでに使用されていますので、変更してください。';
-}
+		//既存ユーザの処理は終わり
+
+
+ } 
 ?>
-<?php require '../footer.php'; ?>
+
+<?php require "../footer.php";?>

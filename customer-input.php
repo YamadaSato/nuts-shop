@@ -1,30 +1,42 @@
-<?php session_start(); ?>
-<?php require '../header.php'; ?>
-<?php require 'menu.php'; ?>
-<?php
-$name=$address=$login=$password='';
+<?php 
+ session_start(); 
+ require '../header.php'; 
+ require 'menu.php'; 
+
+$name='';
+$address='';
+$login='';
+$password='';
+$email='';
 if (isset($_SESSION['customer'])) {
 	$name=$_SESSION['customer']['name'];
 	$address=$_SESSION['customer']['address'];
 	$login=$_SESSION['customer']['login'];
 	$password=$_SESSION['customer']['password'];
+	$email=$_SESSION['customer']['email'];
 }
-echo '<form action="customer-output.php" method="post">';
-echo '<table>';
-echo '<tr><td>お名前</td><td>';
-echo '<input type="text" name="name" value="', $name, '">';
-echo '</td></tr>';
-echo '<tr><td>ご住所</td><td>';
-echo '<input type="text" name="address" value="', $address, '">';
-echo '</td></tr>';
-echo '<tr><td>ログイン名</td><td>';
-echo '<input type="text" name="login" value="', $login, '">';
-echo '</td></tr>';
-echo '<tr><td>パスワード</td><td>';
-echo '<input type="password" name="password" value="', $password, '">';
-echo '</td></tr>';
-echo '</table>';
-echo '<input type="submit" value="確定">';
-echo '</form>';
 ?>
+<form action="customer-output.php" method="post">
+<table>
+<tr><td>お名前(*)</td><td>
+<input type="text" name="name" value="<?=$name?>" required>
+</td></tr>
+<tr><td>ご住所(*)</td><td>
+<input type="text" name="address" value="<?=$address?>" required>
+</td></tr>
+<tr><td>ログイン名(*)</td><td>
+<input type="text" name="login" value="<?=$login?>" required>
+</td></tr>
+<tr><td>パスワード(*)</td><td>
+<input type="password" name="password" 
+	value="<?=$password?>" required>
+</td></tr>
+<tr><td>メールアドレス</td><td>
+<input type="text" name="email" 
+	value="<?=$email?>" >
+</td></tr>
+</table>
+<input type="submit" value="確定">
+</form>
+
 <?php require '../footer.php'; ?>
