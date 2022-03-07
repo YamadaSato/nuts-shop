@@ -163,4 +163,3 @@ function compareStringDesc(a, b) {
 }
 </script>
 		
-git branch add-mail./admin/syohin-uriage.php
