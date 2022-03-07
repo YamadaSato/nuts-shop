@@ -1,7 +1,7 @@
 <?php session_start();
- require "../header.php";
+ require "header.php";
  require "menu.php";
- require '../chapter6/connect.php';
+ require 'connect.php';
 
 	$sql=$pdo->prepare('
 		select count(*) from customer 
@@ -20,13 +20,15 @@
 		if ( $sql->fetch()['count(*)'] == 0 ) {
 				// ログインしていないユーザーの登録処理
 					$sql=$pdo->prepare('insert into customer values(null,?,?,?,?,?)');
+				password_hash(($_REQUEST['password']) , PASSWORD_DEFAULT );
 					$sql->execute([
 								$_REQUEST['name'],
 								$_REQUEST['address'],
-								$_REQUEST['email'],
 								$_REQUEST['login'],
-								$_REQUEST['password']
+								password_hash(($_REQUEST['password']) , PASSWORD_DEFAULT ),
+								$_REQUEST['email']
 							]);
+					
 					echo 'お客様情報を登録しました。';
 		}
 	else {

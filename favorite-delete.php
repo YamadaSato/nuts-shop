@@ -1,10 +1,9 @@
 <?php session_start(); ?>
-<?php require '../header.php'; ?>
+<?php require 'header.php'; ?>
 <?php require 'menu.php'; ?>
 <?php
 if (isset($_SESSION['customer'])) {
-	$pdo=new PDO('mysql:host=localhost;dbname=hs_shop;charset=utf8', 
-	'satou_hidetoshi', 'Asdf3333-');
+	require 'connect.php';
 	$sql=$pdo->prepare(
 		'delete from favorite where customer_id=? and product_id=?');
 	$sql->execute([$_SESSION['customer']['id'], $_REQUEST['id']]);
@@ -15,4 +14,4 @@ if (isset($_SESSION['customer'])) {
 }
 require 'favorite.php';
 ?>
-<?php require '../footer.php'; ?>
+<?php require 'footer.php'; ?>

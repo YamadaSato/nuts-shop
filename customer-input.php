@@ -1,6 +1,6 @@
 <?php 
  session_start(); 
- require '../header.php'; 
+ require 'header.php'; 
  require 'menu.php'; 
 
 $name='';
@@ -21,6 +21,8 @@ if (isset($_SESSION['customer'])) {
 <tr><td>お名前(*)</td><td>
 <input type="text" name="name" value="<?=$name?>" required>
 </td></tr>
+<tr><td>郵便番号(*)</td><td>
+<input type="number" name="zip11" size="8" maxlength="8" onKeyUp="AjaxZip3.zip2addr(this,'','address','address');">	</td></tr>
 <tr><td>ご住所(*)</td><td>
 <input type="text" name="address" value="<?=$address?>" required>
 </td></tr>
@@ -39,4 +41,13 @@ if (isset($_SESSION['customer'])) {
 <input type="submit" value="確定">
 </form>
 
-<?php require '../footer.php'; ?>
+<?php require 'footer.php'; ?>
+<script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
+<script src="js/ajaxzip3.js" charset="UTF-8"></script>
+<style>
+input[type="number"]::-webkit-outer-spin-button, 
+input[type="number"]::-webkit-inner-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+} 
+</style>

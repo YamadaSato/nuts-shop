@@ -17,8 +17,10 @@ if (!empty($_SESSION['product'])) {
 		echo '<td><a href="cart-delete.php?id=', $id, '">削除</a></td>';
 		echo '</tr>';
 	}
-	echo '<tr><td>合計</td><td></td><td></td><td></td><td>', $total, 
-		'</td><td></td></tr>';
+	echo '<tr><td>合計</td><td></td><td></td><td></td><td>';
+	echo	$total;
+	echo '<td><a href="purchase-input.php?id=', $id, '">購入</a></td>';
+	echo '</tr>';
 	echo '</table>';
 } else {
 	echo 'カートに商品がありません。';

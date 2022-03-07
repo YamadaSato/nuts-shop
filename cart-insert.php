@@ -1,5 +1,5 @@
 <?php session_start(); ?>
-<?php require '../header.php'; ?>
+<?php require 'header.php'; ?>
 <?php require 'menu.php'; ?>
 <?php
 $id=$_REQUEST['id'];
@@ -17,6 +17,9 @@ $_SESSION['product'][$id]=[
 ];
 echo '<p>カートに商品を追加しました。</p>';
 echo '<hr>';
-require 'cart.php';
+
 ?>
-<?php require '../footer.php'; ?>
+
+<meta http-equiv="refresh" content="2; url=http://satou_hidetoshi.org/nuts-shop2/cart-show.php">
+
+<?php require 'footer.php'; ?>

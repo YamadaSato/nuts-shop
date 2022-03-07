@@ -1,10 +1,9 @@
 <?php session_start(); ?>
-<?php require '../header.php'; ?>
+<?php require 'header.php'; ?>
 <?php require 'menu.php'; ?>
 <?php
 if (isset($_SESSION['customer'])) {
-	$pdo=new PDO('mysql:host=localhost;dbname=hs_shop;charset=utf8', 
-	'satou_hidetoshi', 'Asdf3333-');
+	require 'connect.php';
 	$sql=$pdo->prepare('insert into favorite values(?,?)');
 	$sql->execute([$_SESSION['customer']['id'], $_REQUEST['id']]);
 	echo 'お気に入りに商品を追加しました。';
@@ -14,4 +13,4 @@ if (isset($_SESSION['customer'])) {
 	echo 'お気に入りに商品を追加するには、ログインしてください。';
 }
 ?>
-<?php require '../footer.php'; ?>
+<?php require 'footer.php'; ?>

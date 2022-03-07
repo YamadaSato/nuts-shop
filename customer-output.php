@@ -1,8 +1,8 @@
 <?php session_start();
 	//既存ユーザーの情報変更
- require "../header.php";
+ require "header.php";
  require "menu.php";
- require '../chapter6/connect.php';
+ require 'connect.php';
 
  
  // var_dump($sql->fetch()['count(*)']);
@@ -78,4 +78,4 @@
  } 
 ?>
 
-<?php require "../footer.php";?>
+<?php require "footer.php";?>

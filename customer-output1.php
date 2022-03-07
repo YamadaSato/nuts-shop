@@ -1,7 +1,7 @@
 <?php session_start();?>
-<?php require "../header.php";?>
+<?php require "header.php";?>
 <?php require "menu.php";?>
-<?php require '../chapter6/connect.php';?>
+<?php require 'connect.php';?>
 
 <?php
 // if (isset($_SESSION['customer'])) {
@@ -65,5 +65,5 @@ if ( $sql->fetch()['count(*)'] == 0 ) {
 }
 ?>
 
-<?php require "../footer.php";?>
+<?php require "footer.php";?>
 
